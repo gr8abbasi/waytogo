@@ -1,3 +1,3 @@
 package stringUtil
 
-var name string = "Kashif"
+var Name string = "Kashif"

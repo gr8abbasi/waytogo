@@ -1,5 +1,5 @@
 package stringUtil
 
-func Reverse(s string)string  {
+func Reverse(s string) string {
 	return reverseTwo(s)
 }
