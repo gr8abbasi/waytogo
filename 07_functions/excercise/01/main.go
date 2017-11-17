@@ -9,10 +9,6 @@ func main() {
 	fmt.Println(halfEven(x))
 }
 
-func halfEven(x int) (float32, bool) {
-	var even bool
-	if x%2 == 0 {
-		even = true
-	}
-	return float32(x) / 2, even
+func halfEven(x int) (float64, bool) {
+	return float64(x) / 2, x%2 == 0
 }
