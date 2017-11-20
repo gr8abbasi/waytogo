@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Person Overriding
+// Person Promotions/Overriding of Fields
 type Person struct {
 	firstName string
 	lastName  string
@@ -12,7 +12,7 @@ type Person struct {
 	Age       int
 }
 
-// DoubleZero Overriding Person
+// DoubleZero Promotions/Overriding of Fields
 type DoubleZero struct {
 	Person
 	firstName     string
