@@ -25,10 +25,12 @@ func generator(n int) <-chan int {
 
 func factorial(number <-chan int) <-chan int {
 	out := make(chan int)
-	total := 1
 	for n := range number {
 		go func() {
-			total *= n
+			total := 1
+			for index := n; index > 0; index-- {
+				total *= index
+			}
 			out <- total
 		}()
 	}
