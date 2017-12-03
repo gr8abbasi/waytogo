@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	gen := generator(100)
+	gen := generator(13)
 	fac := factorial(gen)
 	for n := range fac {
 		fmt.Println(n)
@@ -14,26 +14,26 @@ func main() {
 
 func generator(n int) <-chan int {
 	numbers := make(chan int)
-	for index := 1; index <= 100; index++ {
-		go func() {
+	go func() {
+		for index := 1; index <= n; index++ {
 			numbers <- index
-		}()
-	}
-	close(numbers)
+		}
+		close(numbers)
+	}()
 	return numbers
 }
 
 func factorial(number <-chan int) <-chan int {
 	out := make(chan int)
-	for n := range number {
-		go func() {
+	go func() {
+		for n := range number {
 			total := 1
 			for index := n; index > 0; index-- {
 				total *= index
 			}
 			out <- total
-		}()
-	}
-	close(out)
+		}
+		close(out)
+	}()
 	return out
 }
