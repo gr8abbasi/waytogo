@@ -1,31 +1,36 @@
 package main
-
+    
 import (
-	"fmt"
-	"sync"
+	"strconv"
 	"time"
+	"fmt"
 )
 
-var wg sync.WaitGroup
-
 func main() {
-	wg.Add(2) // Number of waitgroup e.g wait for 2 func to execute
-	go foo()  // with go it doesn't display anything we have to use WaitGroup
-	go bar()
-	wg.Wait()
-}
+	start := time.Now()
+	// Create `sample.csv` in current directory
+	csv, err := NewCsvWriter("sample.csv")
+	if err != nil {
+		panic("Could not open `sample.csv` for writing")
+	}
 
-func foo() {
-	for i := 0; i < 100; i++ {
-		fmt.Println("Foo:", i)
-		time.Sleep(3 * time.Millisecond) // delay to see concurrency and mixed printout
+	// Flush pending writes and close file upon exit of main()
+	defer csv.Close()
+
+	count := 1000000
+
+	done := make(chan bool)
+
+	for i := count; i > 0; i-- {
+		go func(i int) {
+			csv.Write([]string{strconv.Itoa(i), "bottles", "of", "beer"})
+			done <- true
+		}(i)
 	}
-	wg.Done()
-}
-func bar() {
-	for i := 0; i < 100; i++ {
-		fmt.Println("Bar:", i)
-		time.Sleep(3 * time.Millisecond)
+
+	for i := 0; i < count; i++ {
+		<-done
 	}
-	wg.Done()
+
+	fmt.Print("Procession Time for %s records is %s", count, time.Since(start))
 }
