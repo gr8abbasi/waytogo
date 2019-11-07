@@ -1,3 +1,4 @@
+// Reference: https://www.infoq.com/presentations/go-concurrency-demo/
 package main
 
 import (
